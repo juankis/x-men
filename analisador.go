@@ -14,7 +14,7 @@ func isMutant(adn []string) bool {
 	if buscarEnFilas(adn) {
 		return true
 	}
-	if buscarEnColumnas() {
+	if buscarEnColumnas(adn) {
 		return true
 	}
 	if buscarEnDiagonales() {
@@ -40,8 +40,20 @@ func buscarEnFilas(adn []string) bool {
 	return false
 }
 
-func buscarEnColumnas() bool {
-	return false
+func buscarEnColumnas(adn []string) bool {
+	for i := 0; i < len(adn); i++ {
+		column := ""
+		for j := 0; j < len(adn); j++ {
+			column += string(adn[j][i])
+		}
+		if buscarEnFila(column) {
+			secuenceFound++
+		}
+		if validar() {
+			return true
+		}
+	}
+	return true
 }
 
 func buscarEnDiagonales() bool {
