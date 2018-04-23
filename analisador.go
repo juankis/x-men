@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -11,12 +10,12 @@ var letrasCodigoGenetico = []string{"A", "T", "C", "G"}
 var secuenceFound int = 0
 
 func isMutant(adn []string) bool {
-	/*if buscarEnFilas(adn) {
+	if buscarEnFilas(adn) {
 		return true
 	}
 	if buscarEnColumnas(adn) {
 		return true
-	}*/
+	}
 	if buscarEnDiagonales(adn) {
 		return true
 	}
@@ -24,7 +23,6 @@ func isMutant(adn []string) bool {
 }
 
 func validar() bool {
-	fmt.Printf("cantidad encontrados: %v \n", secuenceFound)
 	return cantSequence <= secuenceFound
 }
 
@@ -59,17 +57,17 @@ func buscarEnColumnas(adn []string) bool {
 func buscarEnDiagonales(adn []string) bool {
 	n := len(adn)
 	for i := 0; i < n; i++ {
-		diagonal := ""
-		diagonalSegundo := ""
-		diagonalInversa := ""
-		diagonalInversaSegundo := ""
+		var diagonals [4]string
 		for j := 0; j <= i; j++ {
 			x := (n - 1) - j
 			y := (n - 1) - (i - j)
-			diagonal += string(adn[j][i-j])
-			diagonalSegundo += string(adn[x][y])
-			diagonalInversa += string(adn[j][y])
-			diagonalInversaSegundo += string(adn[y][j])
+			diagonals[0] += string(adn[j][i-j])
+			diagonals[1] += string(adn[x][y])
+			diagonals[2] += string(adn[j][y])
+			diagonals[3] += string(adn[y][j])
+		}
+		if revisarDiagonales(diagonals) {
+			return true
 		}
 	}
 	return false
@@ -79,10 +77,20 @@ func buscarEnFila(fila string) bool {
 	for i := 0; i < len(letrasCodigoGenetico); i++ {
 		fined := strings.Repeat(letrasCodigoGenetico[i], cantSequence)
 		if strings.Contains(fila, fined) {
-			fmt.Printf("Encontrado!\n")
 			return true
-
 		}
+	}
+	return false
+}
+
+func revisarDiagonales(diagonals [4]string) bool {
+	for i := 0; i < len(diagonals); i++ {
+		if buscarEnFila(diagonals[i]) {
+			secuenceFound++
+		}
+	}
+	if validar() {
+		return true
 	}
 	return false
 }
