@@ -11,13 +11,13 @@ var letrasCodigoGenetico = []string{"A", "T", "C", "G"}
 var secuenceFound int = 0
 
 func isMutant(adn []string) bool {
-	if buscarEnFilas(adn) {
+	/*if buscarEnFilas(adn) {
 		return true
 	}
 	if buscarEnColumnas(adn) {
 		return true
-	}
-	if buscarEnDiagonales() {
+	}*/
+	if buscarEnDiagonales(adn) {
 		return true
 	}
 	return false
@@ -56,7 +56,22 @@ func buscarEnColumnas(adn []string) bool {
 	return true
 }
 
-func buscarEnDiagonales() bool {
+func buscarEnDiagonales(adn []string) bool {
+	n := len(adn)
+	for i := 0; i < n; i++ {
+		diagonal := ""
+		diagonalSegundo := ""
+		diagonalInversa := ""
+		diagonalInversaSegundo := ""
+		for j := 0; j <= i; j++ {
+			x := (n - 1) - j
+			y := (n - 1) - (i - j)
+			diagonal += string(adn[j][i-j])
+			diagonalSegundo += string(adn[x][y])
+			diagonalInversa += string(adn[j][y])
+			diagonalInversaSegundo += string(adn[y][j])
+		}
+	}
 	return false
 }
 
