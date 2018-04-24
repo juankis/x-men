@@ -58,8 +58,10 @@ func findInDiagonals(adn []string) bool {
 			diagonals[0] += string(adn[j][i-j])
 			diagonals[1] += string(adn[x][y])
 			diagonals[2] += string(adn[j][y])
+			diagonals[3] += string(adn[y][j])
 			if i == sizeMatriz-1 {
-				diagonals[3] += ""
+				diagonals[1] = ""
+				diagonals[2] = ""
 			}
 		}
 		if checkInDiagonals(diagonals) {
