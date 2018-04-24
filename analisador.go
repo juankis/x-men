@@ -46,7 +46,7 @@ func findInColumns(adn []string) bool {
 			}
 		}
 	}
-	return true
+	return false
 }
 
 func findInDiagonals(adn []string) bool {
