@@ -58,7 +58,9 @@ func findInDiagonals(adn []string) bool {
 			diagonals[0] += string(adn[j][i-j])
 			diagonals[1] += string(adn[x][y])
 			diagonals[2] += string(adn[j][y])
-			diagonals[3] += string(adn[y][j])
+			if i != j {
+				diagonals[3] += string(adn[y][j])
+			}
 		}
 		if checkInDiagonals(diagonals) {
 			return true
