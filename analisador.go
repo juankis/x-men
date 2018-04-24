@@ -12,7 +12,7 @@ var secuenceFound int = 0
 var sizeMatriz int = 0
 
 func isMutant(adn []string) bool {
-	sizeMatriz = sizeMatriz
+	sizeMatriz = len(adn)
 	if findInRows(adn) || findInColumns(adn) || findInDiagonals(adn) {
 		return true
 	}
