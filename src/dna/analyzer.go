@@ -1,4 +1,4 @@
-package main
+package dna
 
 import (
 	"strings"
@@ -8,10 +8,11 @@ const cantSequenceRepetition int = 4
 const cantSequenceMin int = 2
 
 var geneticCodeLetters = []string{"A", "T", "C", "G"}
-var secuenceFound int = 0
-var sizeMatriz int = 0
+var secuenceFound int
+var sizeMatriz int
 
-func isMutant(adn []string) bool {
+// IsMutant xxx
+func IsMutant(adn []string) bool {
 	sizeMatriz = len(adn)
 	if findInRows(adn) || findInColumns(adn) || findInDiagonals(adn) {
 		return true

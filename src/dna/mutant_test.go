@@ -1,4 +1,4 @@
-package main
+package dna
 
 import "testing"
 
@@ -28,9 +28,9 @@ func TestIsMutant(t *testing.T) {
 	}
 
 	for i := 0; i < len(cases); i++ {
-		isMutant := isMutant(cases[i].Matriz)
+		isMutant := IsMutant(cases[i].Matriz)
 		if isMutant != cases[i].Response {
-			t.Errorf("isMutant was incorrect, got: %d, want: %d. Case: %d", isMutant, cases[i].Response, i+1)
+			t.Errorf("isMutant was incorrect, got: %t, want: %t. Case: %d", isMutant, cases[i].Response, i+1)
 		}
 	}
 }
