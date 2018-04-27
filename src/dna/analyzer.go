@@ -2,6 +2,7 @@ package dna
 
 import (
 	"strings"
+	"sync"
 )
 
 const cantSequenceRepetition int = 4
@@ -12,75 +13,73 @@ var secuenceFound int
 var sizeMatriz int
 
 // IsMutant xxx
-func IsMutant(adn []string) bool {
-	secuenceFound = 0
-	sizeMatriz = len(adn)
-	if findInColumnsAndRows(adn) || findInDiagonals(adn) {
-		return true
+func IsMutant(dna []string) bool {
+	sizeMatriz = len(dna)
+	return asyncCheckMutant(dna)
+}
+
+func findInColumnsAndRows(dna []string, searchWg *sync.WaitGroup, assertCh chan int) {
+	defer searchWg.Done()
+	for _, row := range dna {
+		findInRow(row, assertCh)
+		var column string
+		for _, col := range row {
+			column += string(col)
+		}
+		findInRow(column, assertCh)
 	}
-	return false
 }
 
-func valid() bool {
-	return cantSequenceMin <= secuenceFound
-}
-
-func findInColumnsAndRows(adn []string) bool {
-	var res bool = false
-	for i := 0; i < sizeMatriz; i++ {
-		res = findInRow(adn[i])
-		if res {
-			return true
-		}
-		column := ""
-		for j := 0; j < sizeMatriz; j++ {
-			column += string(adn[j][i])
-		}
-		if findInRow(column) {
-			res = true
-		}
-	}
-	return res
-}
-
-func findInDiagonals(adn []string) bool {
-	for i := 0; i < sizeMatriz; i++ {
+func findInDiagonals(dna []string, searchWg *sync.WaitGroup, assertCh chan int) {
+	defer searchWg.Done()
+	for i := range dna {
 		var diagonals [4]string
 		for j := 0; j <= i; j++ {
 			x := (sizeMatriz - 1) - j
 			y := (sizeMatriz - 1) - (i - j)
-			diagonals[0] += string(adn[j][i-j])
-			diagonals[1] += string(adn[x][y])
-			diagonals[2] += string(adn[j][y])
-			diagonals[3] += string(adn[y][j])
+			diagonals[0] += string(dna[j][i-j])
+			diagonals[1] += string(dna[x][y])
+			diagonals[2] += string(dna[j][y])
+			diagonals[3] += string(dna[y][j])
+
 			if i == sizeMatriz-1 {
 				diagonals[1] = ""
 				diagonals[2] = ""
 			}
 		}
-		if checkInDiagonals(diagonals) {
-			return true
-		}
+		checkInDiagonals(diagonals, assertCh)
 	}
-	return false
 }
 
-func findInRow(row string) bool {
+func findInRow(row string, assertCh chan int) {
 	for _, letter := range geneticCodeLetters {
-		fined := strings.Count(row, strings.Repeat(letter, cantSequenceRepetition))
-		if fined > 0 {
-			secuenceFound += fined
-			if valid() {
-				return true
-			}
-		}
+		assertCh <- strings.Count(row, strings.Repeat(letter, cantSequenceRepetition))
 	}
-	return false
 }
 
-func checkInDiagonals(diagonals [4]string) bool {
+func checkInDiagonals(diagonals [4]string, assertCh chan int) {
 	for _, diagonal := range diagonals {
-		if findInRow(diagonal) {
+		findInRow(diagonal, assertCh)
+	}
+}
+
+func asyncCheckMutant(dnaMatrix []string) bool {
+	var searchWg sync.WaitGroup
+	searchWg.Add(2)
+	assertCh := make(chan int, 1)
+
+	go findInColumnsAndRows(dnaMatrix, &searchWg, assertCh)
+	go findInDiagonals(dnaMatrix, &searchWg, assertCh)
+
+	go func(searchWg *sync.WaitGroup, assertCh chan int) {
+		searchWg.Wait()
+		close(assertCh)
+	}(&searchWg, assertCh)
+
+	var assert int
+	for r := range assertCh {
+		assert += r
+		if assert >= cantSequenceMin {
 			return true
 		}
 	}
