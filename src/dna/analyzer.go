@@ -15,7 +15,7 @@ var sizeMatriz int
 func IsMutant(adn []string) bool {
 	secuenceFound = 0
 	sizeMatriz = len(adn)
-	if findInColumnsAndRows(adn) || findInDiagonals(adn) {
+	if findInColumnsRowsAndDiagonals(adn) {
 		return true
 	}
 	return false
@@ -25,54 +25,52 @@ func valid() bool {
 	return cantSequenceMin <= secuenceFound
 }
 
-func findInColumnsAndRows(adn []string) bool {
-	var res bool = false
-	for i := 0; i < sizeMatriz; i++ {
-		res = findInRow(adn[i])
-		if res {
+func findInColumnsRowsAndDiagonals(adn []string) bool {
+	for i, row := range adn {
+		if findInRow(row) {
 			return true
 		}
 		column := ""
-		for j := 0; j < sizeMatriz; j++ {
+		for j := range adn {
 			column += string(adn[j][i])
 		}
 		if findInRow(column) {
-			res = true
+			return true
 		}
-	}
-	return res
-}
-
-func findInDiagonals(adn []string) bool {
-	for i := 0; i < sizeMatriz; i++ {
-		var diagonals [4]string
-		for j := 0; j <= i; j++ {
-			x := (sizeMatriz - 1) - j
-			y := (sizeMatriz - 1) - (i - j)
-			diagonals[0] += string(adn[j][i-j])
-			diagonals[1] += string(adn[x][y])
-			diagonals[2] += string(adn[j][y])
-			diagonals[3] += string(adn[y][j])
-			if i == sizeMatriz-1 {
-				diagonals[1] = ""
-				diagonals[2] = ""
-			}
-		}
-		if checkInDiagonals(diagonals) {
+		if findInDiagonals(adn, i) {
 			return true
 		}
 	}
 	return false
 }
 
+func findInDiagonals(adn []string, i int) bool {
+	var diagonals [4]string
+	for j := 0; j <= i; j++ {
+		x := (sizeMatriz - 1) - j
+		y := (sizeMatriz - 1) - (i - j)
+		diagonals[0] += string(adn[j][i-j])
+		diagonals[1] += string(adn[x][y])
+		diagonals[2] += string(adn[j][y])
+		diagonals[3] += string(adn[y][j])
+		if i == sizeMatriz-1 {
+			diagonals[1] = ""
+			diagonals[2] = ""
+		}
+	}
+	if checkInDiagonals(diagonals) {
+		return true
+	}
+
+	return false
+}
+
 func findInRow(row string) bool {
 	for _, letter := range geneticCodeLetters {
 		fined := strings.Count(row, strings.Repeat(letter, cantSequenceRepetition))
-		if fined > 0 {
-			secuenceFound += fined
-			if valid() {
-				return true
-			}
+		secuenceFound += fined
+		if valid() {
+			return true
 		}
 	}
 	return false
