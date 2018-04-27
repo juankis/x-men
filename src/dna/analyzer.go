@@ -13,8 +13,9 @@ var sizeMatriz int
 
 // IsMutant xxx
 func IsMutant(adn []string) bool {
+	secuenceFound = 0
 	sizeMatriz = len(adn)
-	if findInRows(adn) || findInColumns(adn) || findInDiagonals(adn) {
+	if findInColumnsAndRows(adn) || findInDiagonals(adn) {
 		return true
 	}
 	return false
@@ -24,30 +25,22 @@ func valid() bool {
 	return cantSequenceMin <= secuenceFound
 }
 
-func findInRows(adn []string) bool {
-	for index := 0; index < sizeMatriz; index++ {
-		if findInRow(adn[index]) {
-			if addFound() {
-				return true
-			}
-		}
-	}
-	return false
-}
-
-func findInColumns(adn []string) bool {
+func findInColumnsAndRows(adn []string) bool {
+	var res bool = false
 	for i := 0; i < sizeMatriz; i++ {
+		res = findInRow(adn[i])
+		if res {
+			return true
+		}
 		column := ""
 		for j := 0; j < sizeMatriz; j++ {
 			column += string(adn[j][i])
 		}
 		if findInRow(column) {
-			if addFound() {
-				return true
-			}
+			res = true
 		}
 	}
-	return false
+	return res
 }
 
 func findInDiagonals(adn []string) bool {
@@ -73,19 +66,11 @@ func findInDiagonals(adn []string) bool {
 }
 
 func findInRow(row string) bool {
-	for i := 0; i < len(geneticCodeLetters); i++ {
-		fined := strings.Repeat(geneticCodeLetters[i], cantSequenceRepetition)
-		if strings.Contains(row, fined) {
-			return true
-		}
-	}
-	return false
-}
-
-func checkInDiagonals(diagonals [4]string) bool {
-	for i := 0; i < len(diagonals); i++ {
-		if findInRow(diagonals[i]) {
-			if addFound() {
+	for _, letter := range geneticCodeLetters {
+		fined := strings.Count(row, strings.Repeat(letter, cantSequenceRepetition))
+		if fined > 0 {
+			secuenceFound += fined
+			if valid() {
 				return true
 			}
 		}
@@ -93,7 +78,11 @@ func checkInDiagonals(diagonals [4]string) bool {
 	return false
 }
 
-func addFound() bool {
-	secuenceFound++
-	return valid()
+func checkInDiagonals(diagonals [4]string) bool {
+	for _, diagonal := range diagonals {
+		if findInRow(diagonal) {
+			return true
+		}
+	}
+	return false
 }
