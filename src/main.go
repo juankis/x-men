@@ -2,9 +2,9 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/juankis/x-men-2/x-men/src/dna/utils"
 	"github.com/juankis/x-men/src/controllers"
 	"github.com/juankis/x-men/src/dna"
+	"github.com/juankis/x-men/src/dna/utils"
 	"github.com/juankis/x-men/src/models"
 )
 
