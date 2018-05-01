@@ -13,6 +13,7 @@ func main() {
 	router := gin.Default()
 
 	router.POST("/mutant", handleMutant)
+	router.GET("/stats", handleStats)
 
 	router.Run(":8080")
 
@@ -43,4 +44,16 @@ func handleMutant(c *gin.Context) {
 
 	return
 
+}
+
+func handleStats(c *gin.Context) {
+	humans := controllers.Humans()
+	mutants := controllers.Mutants()
+	ratio := float64(mutants) / float64(humans)
+	c.JSON(200, gin.H{
+		"count_human_dna":  humans,
+		"count_mutant_dna": mutants,
+		"ratio":            ratio,
+	})
+	return
 }

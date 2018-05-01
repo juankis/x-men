@@ -16,3 +16,22 @@ func SaveDna(dna []string, isMutant bool) string {
 		return "1"
 	}
 }
+
+func CantType(tipe bool) int {
+	db := db.Connect()
+	defer db.Close()
+	count, err := db.Model((*models.Mutant)(nil)).Where("mutant = ?", tipe).Count()
+	if err != nil {
+		return -1
+	} else {
+		return count
+	}
+}
+
+func Humans() int {
+	return CantType(false)
+}
+
+func Mutants() int {
+	return CantType(true)
+}
