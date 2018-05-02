@@ -1,11 +1,11 @@
 package config
 
 const (
-	// MutantRepetitions xx
-	MutantRepetitions int = 4
-	// MinMutantRepetitions xx
-	MinMutantRepetitions int = 2
+	// CantSequenceRepetition xx
+	CantSequenceRepetition int = 4
+	// CantSequenceMin xx
+	CantSequenceMin int = 2
 )
 
-// GeneticCodeLetters xx
-var GeneticCodeLetters = [...]string{"A", "T", "C", "G"}
+//GeneticCodeLetters xxx
+var GeneticCodeLetters = []string{"A", "T", "C", "G"}

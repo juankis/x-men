@@ -1,27 +1,26 @@
-package dna
+package analyzer
 
-import "testing"
+import (
+	"testing"
 
-type Case struct {
-	Matrix []string
-	Passed bool
-}
+	"github.com/juankis/x-men/src/models"
+)
 
 func TestIsMutant(t *testing.T) {
-	var cases = []Case{
-		Case{
+	var cases = []models.Case{
+		models.Case{
 			Matrix: []string{"AALABCDAX", "ECGCEFGAB", "IJCMCJXMC", "LNIYLVYOD", "ABCDCBNDE", "EFGHECGHF", "IJKMIJCMG", "LNSOLNTCH", "AAXALNXOC"},
 			Passed: false,
 		},
-		Case{
+		models.Case{
 			Matrix: []string{"ATGCGA", "CAGTGC", "TTATGT", "AGAAGG", "CCCCTA", "TCACTG"},
 			Passed: true,
 		},
-		Case{
+		models.Case{
 			Matrix: []string{"AALABCDAT", "ECGCEFGTB", "IJCMCJVMC", "LNICLTYOD", "ABCDVBNDE", "EFGTECGHF", "IJTMIJCMG", "LTSOLNTTH", "TAXALNXOC"},
 			Passed: false,
 		},
-		Case{
+		models.Case{
 			Matrix: []string{"AALABCDAT", "ECGCEFGTB", "IJCMCJTMC", "LNICLTYOD", "ABCDVBNDE", "EFGTECGHF", "IJTMIJCMG", "LTSOLNTTH", "TAXALNXOC"},
 			Passed: true,
 		},

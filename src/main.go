@@ -2,10 +2,10 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/juankis/x-men/src/analyzer"
 	"github.com/juankis/x-men/src/controllers"
-	"github.com/juankis/x-men/src/dna"
-	"github.com/juankis/x-men/src/dna/utils"
 	"github.com/juankis/x-men/src/models"
+	"github.com/juankis/x-men/src/utils"
 )
 
 func main() {
@@ -15,7 +15,7 @@ func main() {
 	router.POST("/mutant", handleMutant)
 	router.GET("/stats", handleStats)
 
-	router.Run(":8080")
+	router.Run(":9990")
 
 }
 
@@ -34,7 +34,7 @@ func handleMutant(c *gin.Context) {
 		c.String(400, validationError.Error())
 		return
 	}
-	var res bool = dna.IsMutant(mutantRequest.Dna)
+	var res bool = analyzer.IsMutant(mutantRequest.Dna)
 	controllers.SaveDna(mutantRequest.Dna, res)
 	if res {
 		c.String(200, "200-OK")

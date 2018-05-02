@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-// IsValidDna xxx
+// IsValidDna mi testo
 func IsValidDna(dna []string) error {
 
 	matrixSize := len(dna)
