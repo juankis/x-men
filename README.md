@@ -14,6 +14,6 @@
 { "dna":["ATGCGA", "CAGTGC", "TTATGT", "AGAAGG", "CCCCTA", "TCACTG"] } 
 ```
 - Consult reports adn: GET http://ec2-18-219-147-241.us-east-2.compute.amazonaws.com:8080/stats
-
-
-
+# Details
+- The project is deployed on an amazon server with load balancer.
+- In the repository there are 2 functional branches, one with a synchronous code (origin), another with an asynchronous code with go routines (async)
