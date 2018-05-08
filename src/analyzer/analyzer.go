@@ -78,6 +78,7 @@ func CheckInDiagonals(diagonals [4]string) bool {
 	return false
 }
 
+//getColumn get a column from adn
 func getColumn(columnIndex int, adn []string) string {
 	var column string
 	for j := range adn {

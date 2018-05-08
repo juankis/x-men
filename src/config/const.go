@@ -1,9 +1,9 @@
 package config
 
 const (
-	// CantSequenceRepetition xx
+	// CantSequenceRepetition number of letters repeated in sequence
 	CantSequenceRepetition int = 4
-	// CantSequenceMin xx
+	// CantSequenceMin numner of sequence min in dna to decide if some human is mutant
 	CantSequenceMin int = 2
 )
 

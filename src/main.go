@@ -34,7 +34,7 @@ func handleMutant(c *gin.Context) {
 		c.String(400, validationError.Error())
 		return
 	}
-	var res bool = analyzer.IsMutant(mutantRequest.Dna)
+	res := analyzer.IsMutant(mutantRequest.Dna)
 	controllers.SaveDna(mutantRequest.Dna, res)
 	if res {
 		c.String(200, "200-OK")
