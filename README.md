@@ -7,7 +7,7 @@
 - In x-men folder run in the console: go run src/main.go
 # Run test
 - In folder x-men/src/analizer/ run in the console: go test -cover
-# Demo Api (En mantenimiento ...)
+# Demo Api ( Services stoped, if you want see demo Api, please send an email to juanki.ijcog@gmail.com )
 - Consult if it is mutant adn: POST http://ec2-18-219-147-241.us-east-2.compute.amazonaws.com:8080/mutant
 - Body example Post request:
 ```json
